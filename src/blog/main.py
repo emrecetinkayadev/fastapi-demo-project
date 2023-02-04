@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from blog.home.views import router as home_router
-
+from blog.posts.service import router as post_router
 
 app = FastAPI(
     title="FastAPI Demo",
@@ -12,4 +12,4 @@ app = FastAPI(
 )
 
 app.include_router(home_router, prefix="/home")
-
+app.include_router(post_router, prefix="/posts")
