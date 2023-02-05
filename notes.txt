@@ -1,0 +1,9 @@
+
+for POST requests.
+
+{
+  "user_id": "user_4",
+  "content": {
+    "post":"Hello, I am new here."
+  }
+}
