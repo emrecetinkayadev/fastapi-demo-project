@@ -71,12 +71,12 @@ def delete_post(post_id: PrimaryKey):
             detail=[{"msg": "Post with this id doesn't exist"}],
         )
     else:
-
+        delete(post_id)
+        msg = f"post deleted id: {post_id}"
+        return HTTPException(status_code=status.HTTP_200_OK, detail=[{"msg": msg}])
         # get post by id using service method
         # if not post raise 404 HTTPException (check specification: https://fastapi.tiangolo.com/tutorial/handling-errors/ )
         # else post exists, call delete from service
         # usually no need to return anything from delete, sometimes the deleted id can be returned,
         # but it's ok to return just HTTP 200 response
         # (If there are no exceptions raised and no return, FastAPI automatically return HTTP 200)
-
-        pass

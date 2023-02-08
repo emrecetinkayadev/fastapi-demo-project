@@ -24,6 +24,7 @@ def get(post_id: int) -> t.Optional[Post]:
 
 
 def create(post_in: PostCreate) -> Post:
+    new_post = None
     new_post_id = max_id(post_table) + 1
     new_post = post_in.dict(exclude_unset=True)
     new_post["id"] = new_post_id
@@ -53,7 +54,9 @@ def update(post_db: Post, post_in: PostUpdate) -> Post:
 
 
 def delete(post_id: int) -> None:
+    for index, post in enumerate(post_table):
+        if post["id"] == post_id:
+            post_table.pop(index)
     # Get user by user_id
     # Delete post id from user's posts list
     # Delete post from post_table
-    pass
