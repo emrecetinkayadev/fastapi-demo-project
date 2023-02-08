@@ -25,9 +25,10 @@ def get(post_id: int) -> t.Optional[Post]:
 
 def create(post_in: PostCreate) -> Post:
     new_post_id = max_id(post_table) + 1
-    post_in.id = new_post_id
-    post_table.append(dict(post_in))
-    return post_in
+    new_post = post_in.dict(exclude_unset=True)
+    new_post["id"] = new_post_id
+    post_table.append(new_post)
+    return new_post
     # generate new post ID (use max_id from blog.utils and increment it)
     # Optional: check that user for post exists in user_table by user_id
     # Make 'Post' dict from PostCreate (Post is our alternative to ORM model)
