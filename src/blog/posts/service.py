@@ -24,19 +24,23 @@ def get(post_id: int) -> t.Optional[Post]:
 
 
 def create(post_in: PostCreate) -> Post:
+    new_post_id = max_id(post_table) + 1
+    post_in.id = new_post_id
+    post_table.append(dict(post_in))
+    return post_in
     # generate new post ID (use max_id from blog.utils and increment it)
     # Optional: check that user for post exists in user_table by user_id
     # Make 'Post' dict from PostCreate (Post is our alternative to ORM model)
     # add Post to posts_table
     # Return full Post
-    pass
 
 
 # Read spec about FastAPI Update approach (currently instead of ORm we use dicts)
 # https://sqlmodel.tiangolo.com/tutorial/fastapi/update/
 def update(post_db: Post, post_in: PostUpdate) -> Post:
     # post_db later for ORM model we need to get dict from model post_db.dict()
-    update_data = post_in.dict(exclude_unset=True)  # update data may contain not all fields from the model
+    # update data may contain not all fields from the model
+    update_data = post_in.dict(exclude_unset=True)
     for key, value in update_data.items():
         post_db[key] = value
 
