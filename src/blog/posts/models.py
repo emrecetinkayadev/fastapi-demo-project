@@ -19,7 +19,7 @@ class PostBase(BlogBase):
 
 
 class PostCreate(PostBase):
-    id: PrimaryKey = None
+    pass
 
 
 class PostUpdate(PostBase):

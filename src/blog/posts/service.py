@@ -23,7 +23,7 @@ def get(post_id: int) -> t.Optional[Post]:
     return searched_post
 
 
-def create(post_in: PostCreate) -> Post:
+def create(post_in: PostCreate) -> t.Optional[Post]:
     new_post = None
     new_post_id = max_id(post_table) + 1
     new_post = post_in.dict(exclude_unset=True)
