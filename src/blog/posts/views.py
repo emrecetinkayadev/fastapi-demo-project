@@ -1,5 +1,3 @@
-import uuid
-
 from fastapi import APIRouter, HTTPException, status
 
 from .models import PostCreate, PostUpdate, PostRead
@@ -42,7 +40,7 @@ def create_post(post_in: PostCreate):
     if not post:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=[{"msg": "Error happened in creating post."}],
+            detail=[{"msg": "Error happened when trying to creating post."}],
         )
     return post
 
@@ -72,8 +70,6 @@ def delete_post(post_id: PrimaryKey):
         )
     else:
         delete(post_id)
-        msg = f"post deleted id: {post_id}"
-        return HTTPException(status_code=status.HTTP_200_OK, detail=[{"msg": msg}])
         # get post by id using service method
         # if not post raise 404 HTTPException (check specification: https://fastapi.tiangolo.com/tutorial/handling-errors/ )
         # else post exists, call delete from service
