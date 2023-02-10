@@ -69,7 +69,7 @@ def delete_post(post_id: PrimaryKey):
             detail=[{"msg": "Post with this id doesn't exist"}],
         )
     else:
-        delete(post_id)
+        delete(post_id=post_id)
         # get post by id using service method
         # if not post raise 404 HTTPException (check specification: https://fastapi.tiangolo.com/tutorial/handling-errors/ )
         # else post exists, call delete from service

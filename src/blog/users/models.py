@@ -14,5 +14,9 @@ class UserCreate(UserBase):
     password: t.Optional[str]
 
 
+class UserUpdate(UserBase):
+    password: t.Optional[str]
+
+
 class UserRead(UserBase):
     id: PrimaryKey = None

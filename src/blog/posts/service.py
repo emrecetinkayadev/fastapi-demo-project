@@ -24,16 +24,16 @@ def get(post_id: int) -> t.Optional[Post]:
 
 
 def create(post_in: PostCreate) -> t.Optional[Post]:
-    new_post_id = max_id(post_table) + 1
-    new_post = post_in.dict(exclude_unset=True)
-    new_post["id"] = new_post_id
-    post_table.append(new_post)
-    return new_post
     # generate new post ID (use max_id from blog.utils and increment it)
     # Optional: check that user for post exists in user_table by user_id
     # Make 'Post' dict from PostCreate (Post is our alternative to ORM model)
     # add Post to posts_table
     # Return full Post
+    new_post_id = max_id(post_table) + 1
+    new_post = post_in.dict(exclude_unset=True)
+    new_post["id"] = new_post_id
+    post_table.append(new_post)
+    return new_post
 
 
 # Read spec about FastAPI Update approach (currently instead of ORm we use dicts)
@@ -53,9 +53,9 @@ def update(post_db: Post, post_in: PostUpdate) -> Post:
 
 
 def delete(post_id: int) -> None:
-    for index, post in enumerate(post_table):
-        if post["id"] == post_id:
-            post_table.pop(index)
     # Get user by user_id
     # Delete post id from user's posts list
     # Delete post from post_table
+    for index, post in enumerate(post_table):
+        if post["id"] == post_id:
+            post_table.pop(index)
