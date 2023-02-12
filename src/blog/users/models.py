@@ -16,6 +16,7 @@ class UserCreate(UserBase):
 
 class UserUpdate(UserBase):
     password: t.Optional[str]
+    new_password: t.Optional[str]
 
 
 class UserRead(UserBase):
