@@ -24,7 +24,6 @@ def get(post_id: int) -> t.Optional[Post]:
 
 
 def create(post_in: PostCreate) -> t.Optional[Post]:
-    new_post = None
     new_post_id = max_id(post_table) + 1
     new_post = post_in.dict(exclude_unset=True)
     new_post["id"] = new_post_id

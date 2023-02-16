@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime
-from src.blog.utils import max_id
+from blog.utils import max_id
 
 post_table = [
     {

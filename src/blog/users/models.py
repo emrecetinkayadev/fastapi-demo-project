@@ -1,6 +1,5 @@
-from blog.models import BlogBase, PrimaryKey
-from typing import t
-import datetime
+from blog.models import BlogBase
+
 
 class UserBase(BlogBase):
-    
+    pass
