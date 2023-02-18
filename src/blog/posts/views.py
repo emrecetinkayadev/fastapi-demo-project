@@ -57,7 +57,7 @@ def update_post(post_id: PrimaryKey, post_in: PostUpdate):
             detail=[{"msg": "Post with this id doesn't exist"}],
         )
 
-    updated_post = update(post_db=post, post_in=post_in)
+    updated_post = update(get_post=post, update_data=post_in)
     return updated_post
 
 
@@ -70,10 +70,7 @@ def delete_post(post_id: PrimaryKey):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=[{"msg": "Post with this id doesn't exist"}],
         )
-    else:
-        delete(post_id)
-        msg = f"post deleted id: {post_id}"
-        return HTTPException(status_code=status.HTTP_200_OK, detail=[{"msg": msg}])
+    delete(post_id=post_id)
         # get post by id using service method
         # if not post raise 404 HTTPException (check specification: https://fastapi.tiangolo.com/tutorial/handling-errors/ )
         # else post exists, call delete from service

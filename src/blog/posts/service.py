@@ -38,18 +38,18 @@ def create(post_in: PostCreate) -> t.Optional[Post]:
 
 # Read spec about FastAPI Update approach (currently instead of ORm we use dicts)
 # https://sqlmodel.tiangolo.com/tutorial/fastapi/update/
-def update(post_db: Post, post_in: PostUpdate) -> Post:
+def update(get_post: Post, update_data: PostUpdate) -> Post:
     # post_db later for ORM model we need to get dict from model post_db.dict()
     # update data may contain not all fields from the model
-    update_data = post_in.dict(exclude_unset=True)
+    update_data = update_data.dict(exclude_unset=True)
     for key, value in update_data.items():
-        post_db[key] = value
+        get_post[key] = value
 
     # When using ORM we will need to commit the changes so that changes to ORM model post_db are reflected in DB
     # For now post_db is in post_table list which contains reference to post_db object, so changes
     # will be reflected automatically
 
-    return post_db
+    return get_post
 
 
 def delete(post_id: int) -> None:
