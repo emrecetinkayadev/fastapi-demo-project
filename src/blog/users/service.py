@@ -2,7 +2,6 @@ from blog.db.db import user_table
 from blog.users.models import User, UserCreate, UserUpdate
 import typing as t
 from blog.utils import max_id
-from .validation import hash_password
 
 
 def get_all() -> t.List[t.Optional[User]]:
@@ -30,7 +29,6 @@ def create(user_in: UserCreate) -> t.Optional[User]:
     new_user = user_in.dict(exclude_unset=True)
 
     new_user["id"] = new_user_id
-    new_user["password"] = hash_password(password=new_user["password"])
 
     user_table.append(new_user)
     return new_user

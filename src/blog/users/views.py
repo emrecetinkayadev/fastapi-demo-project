@@ -4,7 +4,6 @@ from .service import get_all, get, create, delete, update
 from blog.posts.service import get_posts_by_user_id
 import typing as t
 from blog.models import PrimaryKey
-from .validation import check_password
 
 router = APIRouter()
 
@@ -56,17 +55,8 @@ def update_user(user_id: PrimaryKey, user_in: UserUpdate):
             detail=[{"msg": "User with this ID doesn't exist"}]
         )
 
-    pass_check = check_password(user=user, password=user_in.password)
-    print(user["password"])
-    print(user_in.password)
-    if not pass_check:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail=[{"msg": "Password is wrong."}]
-        )
-    else:
-        user_in = update(user_id=user_id, user_in=user_in)
-        return user_in
+    user_in = update(user_id=user_id, user_in=user_in)
+    return user_in
 
 
 @router.delete("/{user_id}", response_model=None)
