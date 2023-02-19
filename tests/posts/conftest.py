@@ -1,6 +1,4 @@
 import pytest
-from blog.posts.models import PostRead
-from datetime import date
 
 
 @pytest.fixture
