@@ -17,14 +17,15 @@ class UserCreate(UserBase):
     @validator('password')
     def password_hasher(cls, v):
         if type(v) is not str:
-            raise ValueError('password is not string.')
+            raise ValueError('Password is not string.')
+        elif ' ' == v:
+            raise ValueError('Password can not be empty.')
         hashed_pass = hash_password(password=v)
         return hashed_pass
 
 
 class UserUpdate(UserBase):
     password: t.Optional[str]
-    new_password: t.Optional[str]
 
 
 class UserRead(UserBase):

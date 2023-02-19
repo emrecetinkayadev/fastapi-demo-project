@@ -8,13 +8,11 @@ def users():
             "id": 1,
             "username": "user_1",
             "email": "user_1@gmail.com",
-            "password": "",
         },
         {
             "id": 2,
             "username": "user_2",
             "email": "user_2@gmail.com",
-            "password": ""
         }
     ]
 
@@ -25,5 +23,4 @@ def user_in():
         "id": 1,
         "username": "user_1",
         "email": "user_1@gmail.com",
-        "password": "",
     }

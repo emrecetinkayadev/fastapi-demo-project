@@ -29,8 +29,7 @@ def test_get_posts__no_posts_found__return_empty_list(mocker):
 def test_create_post__post_created__return_created_post(post_in, mocker):
     post_response = post_in.copy()
     post_response["id"] = 5
-    patched_create = mocker.patch(
-        'blog.posts.views.create', return_value=post_response)
+    patched_create = mocker.patch('blog.posts.views.create', return_value=post_response)
     response = client.post("/posts", json=post_in)
 
     patched_create.assert_called_once()
@@ -44,8 +43,7 @@ def test_create_post__creation_failed__bad_request(post_in, mocker):
 
     patched_create.assert_called_once()
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json() == {'detail': [
-        {'msg': 'Error happened when trying to creating post.'}]}
+    assert response.json() == {'detail': [{'msg': 'Error happened when trying to creating post.'}]}
 
 
 def test_update_post__post_updated__return_updated_post(post_in_put, post_in_get, mocker):
