@@ -31,7 +31,6 @@ def get_post(post_id: PrimaryKey):
 @router.post("", response_model=PostRead)
 def create_post(post_in: PostCreate):
     """Create a new post."""
-    # call service method create
     post = create(post_in)
     if not post:
         raise HTTPException(
@@ -65,9 +64,3 @@ def delete_post(post_id: PrimaryKey):
             detail=[{"msg": "Post with this id doesn't exist"}],
         )
     delete(post_id=post_id)
-    # get post by id using service method
-    # if not post raise 404 HTTPException (check specification: https://fastapi.tiangolo.com/tutorial/handling-errors/ )
-    # else post exists, call delete from service
-    # usually no need to return anything from delete, sometimes the deleted id can be returned,
-    # but it's ok to return just HTTP 200 response
-    # (If there are no exceptions raised and no return, FastAPI automatically return HTTP 200)
