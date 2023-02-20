@@ -27,6 +27,15 @@ class UserCreate(UserBase):
 class UserUpdate(UserBase):
     password: t.Optional[str]
 
+    @validator('password')
+    def password_hasher(cls, v):
+        if type(v) is not str:
+            raise ValueError('Password is not string.')
+        elif ' ' == v:
+            raise ValueError('Password can not be empty.')
+        hashed_pass = hash_password(password=v)
+        return hashed_pass
+
 
 class UserRead(UserBase):
     id: PrimaryKey = None

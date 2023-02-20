@@ -24,3 +24,12 @@ def user_in():
         "username": "user_1",
         "email": "user_1@gmail.com",
     }
+
+
+@pytest.fixture
+def user_post():
+    return {
+        "username": "user_1",
+        "email": "user_1@gmail.com",
+        "password": 12345
+    }

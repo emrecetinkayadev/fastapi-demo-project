@@ -5,11 +5,13 @@ from blog.posts.service import get, get_all, get_posts_by_user_id, create, updat
 from blog.posts.models import PostCreate, PostUpdate
 import datetime
 
+
 def test_get__post_found__return_post(posts, mocker):
     mocker.patch('blog.posts.service.post_table', posts)
     res = get(post_id=1)
 
     assert res == posts[0]
+
 
 def test_get__post_not_found__return_none(mocker):
     mocker.patch('blog.posts.service.post_table', [])
@@ -18,9 +20,9 @@ def test_get__post_not_found__return_none(mocker):
     assert res is None
 
 
-def test_get_all__post_not_found__return_none(posts, mocker):
-    mocker.patch('blog.posts.service.post_table', posts)
-    res = get(post_id=5)
+def test_get_all__posts_not_found__return_none(mocker):
+    mocker.patch('blog.posts.service.post_table', None)
+    res = get_all()
 
     assert res is None
 
@@ -32,6 +34,8 @@ def test_get_all__post_found__return_posts(posts, mocker):
     assert res is posts
 
 # Not sure if this test is correct or not.
+
+
 def test_get_posts_by_user_id__post_found__return_posts(posts, mocker):
     mocker.patch('blog.posts.service.post_table', posts)
     res = get_posts_by_user_id(user_id=1)
@@ -71,7 +75,7 @@ def test_update__update_post__return_updated_post(mocker, post_in_put, posts, po
     assert post == expected_post
 
 
-def test_delete__delete_post__return_none(mocker,posts):
+def test_delete__delete_post__return_none(mocker, posts):
     mocker.patch('blog.posts.service.post_table', posts)
     res = delete(post_id=1)
     assert res is None
