@@ -34,8 +34,6 @@ def test_get_all__post_found__return_posts(posts, mocker):
     assert res is posts
 
 # Not sure if this test is correct or not.
-
-
 def test_get_posts_by_user_id__post_found__return_posts(posts, mocker):
     mocker.patch('blog.posts.service.post_table', posts)
     res = get_posts_by_user_id(user_id=1)

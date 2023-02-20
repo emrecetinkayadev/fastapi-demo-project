@@ -19,7 +19,7 @@ def get(post_id: int) -> t.Optional[Post]:
     for post in post_table:
         if post["id"] == post_id:
             searched_post = post
-
+    breakpoint()
     return searched_post
 
 
