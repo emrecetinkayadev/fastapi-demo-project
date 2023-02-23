@@ -67,17 +67,9 @@ def delete_user(user_id: PrimaryKey):
         user_id (PrimaryKey): Integer ID value
     """
     user = get(user_id=user_id)
-    # Checks if user has post or not.
-    post_count = len(get_posts_by_user_id(user_id=user_id))
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=[{"msg": "User with this ID doesn't exist"}]
         )
-    elif post_count > 0:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail=[{"msg": "User has posts. First Delete Them."}]
-        )
-    else:
-        delete(user_id=user_id)
+    delete(user_id=user_id)

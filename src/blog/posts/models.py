@@ -18,7 +18,6 @@ class PostCreate(PostBase):
 
 
 class PostUpdate(BlogBase):
-    id: PrimaryKey = None
     created_at: t.Optional[datetime.date]
     title: t.Optional[str]
     content: t.Optional[str]
