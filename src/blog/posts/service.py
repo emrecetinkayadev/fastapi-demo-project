@@ -1,12 +1,15 @@
 from blog.db.db import post_table
 from blog.posts.models import PostCreate, PostUpdate, Post
 import typing as t
-
 from blog.utils import max_id
+from sqlalchemy.orm import Session
+from blog.db.database import db
+from fastapi import Depends
 
 
 def get_all() -> t.List[t.Optional[Post]]:
-    return post_table
+    res = db.query("* FROM POSTS").all()
+    return res
 
 
 def get_posts_by_user_id(user_id: int) -> t.List[t.Optional[Post]]:
