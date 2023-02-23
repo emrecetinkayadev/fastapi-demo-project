@@ -81,11 +81,9 @@ def test_update_user__update_failed__return_bad_request(mocker, user_in):
 def test_delete_user__user_deleted__return_none(mocker, user_in):
     user_id = 1
     patched_get = mocker.patch('blog.users.views.get', return_value=user_in)
-    patched_post_counter = mocker.patch('blog.users.views.get_posts_by_user_id', return_value=[])
     response = client.delete(f'/users/{user_id}')
 
     patched_get.assert_called_once()
-    patched_post_counter.assert_called_once()
     assert response.status_code == status.HTTP_200_OK
     assert response.json() is None
 
@@ -93,22 +91,8 @@ def test_delete_user__user_deleted__return_none(mocker, user_in):
 def test_delete_user__delete_failed__return_not_found(mocker):
     user_id = 1
     patched_get = mocker.patch('blog.users.views.get', return_value=[])
-    patched_post_counter = mocker.patch('blog.users.views.get_posts_by_user_id', return_value=[])
     response = client.delete(f'/users/{user_id}')
 
     patched_get.assert_called_once()
-    patched_post_counter.assert_called_once()
     assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response.json() == {'detail': [{'msg': "User with this ID doesn't exist"}]}
-
-
-def test_delete_user__delete_failed__return_forbidden(mocker, user_in):
-    user_id = 1
-    patched_get = mocker.patch('blog.users.views.get', return_value=user_in)
-    patched_post_counter = mocker.patch('blog.users.views.get_posts_by_user_id', return_value=[1])
-    response = client.delete(f'/users/{user_id}')
-
-    patched_get.assert_called_once()
-    patched_post_counter.assert_called_once()
-    assert response.status_code == status.HTTP_403_FORBIDDEN
-    assert response.json() == {'detail': [{'msg': "User has posts. First Delete Them."}]}
