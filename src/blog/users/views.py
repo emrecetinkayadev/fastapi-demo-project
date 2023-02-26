@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, status
 from .models import UserCreate, UserRead, UserUpdate
 from .service import get_all, get, create, delete, update
-from blog.posts.service import get_posts_by_user_id
+from src.blog.posts.service import get_posts_by_user_id
 import typing as t
-from blog.models import PrimaryKey
+from src.blog.models import PrimaryKey
 
 router = APIRouter()
 

@@ -1,6 +1,6 @@
 import datetime
 
-from blog.models import PrimaryKey, BlogBase
+from src.blog.models import PrimaryKey, BlogBase
 import typing as t
 
 Post = dict

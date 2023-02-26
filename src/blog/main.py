@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from blog.home.views import router as home_router
-from blog.posts.views import router as post_router
-from blog.users.views import router as user_router
+from src.blog.home.views import router as home_router
+from src.blog.posts.views import router as post_router
+from src.blog.users.views import router as user_router
 
 app = FastAPI(
     title="FastAPI Demo",

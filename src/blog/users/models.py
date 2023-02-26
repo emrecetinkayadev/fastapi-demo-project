@@ -1,4 +1,4 @@
-from blog.models import BlogBase, PrimaryKey
+from src.blog.models import BlogBase, PrimaryKey
 import typing as t
 from pydantic import EmailStr, validator
 from .validation import hash_password

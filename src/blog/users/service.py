@@ -1,7 +1,7 @@
-from blog.db.db import user_table
-from blog.users.models import User, UserCreate, UserUpdate, UserRead
+from src.blog.db.db import user_table
+from src.blog.users.models import User, UserCreate, UserUpdate, UserRead
 import typing as t
-from blog.utils import max_id
+from src.blog.utils import max_id
 
 
 def get_all() -> t.List[t.Optional[UserRead]]:

@@ -3,3 +3,6 @@ uvicorn[standard]
 pydantic
 httpx
 pytest-mock
+sqlalchemy
+psycopg2
+pydantic[email]

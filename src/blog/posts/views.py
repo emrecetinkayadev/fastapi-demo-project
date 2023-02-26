@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from .models import PostCreate, PostUpdate, PostRead
 from .service import get, create, get_all, delete, update
 import typing as t
-from blog.models import PrimaryKey
+from src.blog.models import PrimaryKey
 
 router = APIRouter()
 

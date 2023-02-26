@@ -1,9 +1,9 @@
-from blog.db.db import post_table
-from blog.posts.models import PostCreate, PostUpdate, Post
+from src.blog.db.db import post_table
+from src.blog.posts.models import PostCreate, PostUpdate, Post
 import typing as t
-from blog.utils import max_id
+from src.blog.utils import max_id
 from sqlalchemy.orm import Session
-from blog.db.database import db
+from src.blog.db.database import db
 from fastapi import Depends
 
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from blog.home.models import HomeRead
+from src.blog.home.models import HomeRead
 
 router = APIRouter()
 
