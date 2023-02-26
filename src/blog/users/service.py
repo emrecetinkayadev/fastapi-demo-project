@@ -23,8 +23,7 @@ def get(user_id: int) -> t.Optional[UserRead]:
 def create(user_in: UserCreate) -> t.Optional[User]:
     new_user = user_in.dict(exclude_unset=True)
 
-    new_user_db = User_db(**new_user)
-    db.add(new_user_db)
+    db.add(User_db(**new_user))
     db.commit()
 
     return new_user
@@ -32,12 +31,16 @@ def create(user_in: UserCreate) -> t.Optional[User]:
 
 def update(user_id: int, user_in: UserUpdate) -> t.Optional[User]:
     user_in = user_in.dict(exclude_unset=True)
-    for index, user in enumerate(user_table):
-        if user["id"] == user_id:
-            user_in["id"] = user_id
-            user_table[index] = user_in
-            break
-    return user_in
+
+    user_query = db.query(User_db).filter_by(id=user_id)
+    db_user = user_query.first()
+
+    user_query.filter_by(id=user_id).update(user_in, synchronize_session=False)
+
+    db.commit()
+    db.refresh(db_user)
+
+    return db_user.__dict__
 
 
 def delete(user_id: int) -> None:
