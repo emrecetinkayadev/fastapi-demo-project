@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
 from .models import UserCreate, UserRead, UserUpdate
-from .service import get_all, get, create, delete, update
+from .service import get_all, get, create, delete, update, check_email
 from src.blog.posts.service import get_posts_by_user_id
 import typing as t
 from src.blog.models import PrimaryKey
@@ -21,6 +21,7 @@ def get_user(user_id: PrimaryKey):
     """
     Get User by ID.
     """
+
     user = get(user_id=user_id)
     if not user:
         raise HTTPException(
@@ -37,17 +38,30 @@ def create_user(user_in: UserCreate):
     Args:
         user_in (UserCreate): User json object.
     """
-    user = create(user_in)
-    if not user:
+    check = check_email(user_in.email)
+    if check:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=[{"msg": "Error happened when trying to user creation"}]
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[{"msg": "The user with this email address already exists."}]
         )
+    user = create(user_in)
     return user
 
 
 @router.put("/{user_id}", response_model=UserRead)
 def update_user(user_id: PrimaryKey, user_in: UserUpdate):
+    """Update User by ID.
+
+    Args:
+        user_id (PrimaryKey): user id
+        user_in (UserUpdate): user data
+
+    Raises:
+        HTTPException: if user not found.
+
+    Returns:
+        _type_: User Data.
+    """
     user = get(user_id=user_id)
     if not user:
         raise HTTPException(

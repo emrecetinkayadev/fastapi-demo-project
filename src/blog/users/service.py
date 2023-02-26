@@ -15,9 +15,10 @@ def get_all() -> t.List[t.Optional[UserRead]]:
 
 
 def get(user_id: int) -> t.Optional[UserRead]:
-    usr = None
-    usr = db.query(User_db).filter_by(id=user_id).first()
-    return usr.__dict__
+    user = db.query(User_db).filter(User_db.id == user_id).first()
+    if not user:
+        return None
+    return user.__dict__
 
 
 def create(user_in: UserCreate) -> t.Optional[User]:
@@ -32,7 +33,7 @@ def create(user_in: UserCreate) -> t.Optional[User]:
 def update(user_id: int, user_in: UserUpdate) -> t.Optional[User]:
     user_in = user_in.dict(exclude_unset=True)
 
-    user_query = db.query(User_db).filter_by(id=user_id)
+    user_query = db.query(User_db).filter(User_db.id == user_id)
     db_user = user_query.first()
 
     user_query.filter_by(id=user_id).update(user_in, synchronize_session=False)
@@ -45,6 +46,13 @@ def update(user_id: int, user_in: UserUpdate) -> t.Optional[User]:
 
 def delete(user_id: int) -> None:
     # Delete User By Id.
-    for index, user in enumerate(user_table):
-        if user["id"] == user_id:
-            user_table.pop(index)
+    user_query = db.query(User_db).filter(User_db.id == user_id)
+    user_query.delete(synchronize_session=False)
+    db.commit()
+
+
+def check_email(user_mail) -> bool:
+    user = db.query(User_db).filter(User_db.email == user_mail).first()
+    if not user:
+        return False
+    return True
