@@ -5,10 +5,11 @@ from src.blog.utils import max_id
 from sqlalchemy.orm import Session
 from src.blog.db.database import db
 from fastapi import Depends
+from src.blog.db.db_models import Post as Post_db
 
 
 def get_all() -> t.List[t.Optional[Post]]:
-    res = db.query("* FROM POSTS").all()
+    res = db.query(Post_db).all()
     return res
 
 
@@ -26,10 +27,10 @@ def get(post_id: int) -> t.Optional[Post]:
 
 
 def create(post_in: PostCreate) -> t.Optional[Post]:
-    new_post_id = max_id(post_table) + 1
-    new_post = post_in.dict(exclude_unset=True)
-    new_post["id"] = new_post_id
-    post_table.append(new_post)
+    post_in_dict = post_in.dict(exclude_unset=True)
+    new_post = Post_db(**post_in_dict)
+    db.add(new_post)
+    db.commit()
     return new_post
 
 

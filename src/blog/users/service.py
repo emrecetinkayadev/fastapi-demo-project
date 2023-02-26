@@ -1,30 +1,32 @@
 from src.blog.db.db import user_table
 from src.blog.users.models import User, UserCreate, UserUpdate, UserRead
 import typing as t
-from src.blog.utils import max_id
+from src.blog.db.database import db
+from src.blog.db.db_models import User as User_db
 
 
 def get_all() -> t.List[t.Optional[UserRead]]:
-    return user_table
+    user_table = db.query(User_db).all()
+    users = []
+    for user_obj in user_table:
+        usr = user_obj.__dict__
+        users.append(usr)
+    return users
 
 
 def get(user_id: int) -> t.Optional[UserRead]:
     usr = None
-    for user in user_table:
-        if user["id"] == user_id:
-            usr = user.copy()
-    if not usr == None:
-        del usr["password"]
-    return usr
+    usr = db.query(User_db).filter_by(id=user_id).first()
+    return usr.__dict__
 
 
 def create(user_in: UserCreate) -> t.Optional[User]:
-    new_user_id = max_id(user_table) + 1
     new_user = user_in.dict(exclude_unset=True)
 
-    new_user["id"] = new_user_id
+    new_user_db = User_db(**new_user)
+    db.add(new_user_db)
+    db.commit()
 
-    user_table.append(new_user)
     return new_user
 
 
