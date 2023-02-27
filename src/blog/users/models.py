@@ -1,9 +1,12 @@
+from sqlalchemy import Column, Integer, String, Boolean
+
 from blog.models import BlogBase, PrimaryKey
 import typing as t
 from pydantic import EmailStr, validator
 from .validation import hash_password
+from blog.db.database import Base
 
-User = dict
+#User = dict
 
 
 class UserBase(BlogBase):
@@ -39,3 +42,17 @@ class UserUpdate(UserBase):
 
 class UserRead(UserBase):
     id: PrimaryKey = None
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String, unique=True)
+    email = Column(String, unique=True)
+    password = Column(String)
+
+    def __repr__(self):
+        return f"<User(id={self.id}, " \
+               f"email=\"{self.email}\", " \
+               f"password=\"{self.password}\")"

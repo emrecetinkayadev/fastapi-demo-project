@@ -9,5 +9,6 @@ PrimaryKey = conint(gt=0, lt=2147483647)
 # Pydantic models...
 class BlogBase(BaseModel):
     class Config:
+        orm_mode = True
         validate_assignment = True
         arbitrary_types_allowed = True

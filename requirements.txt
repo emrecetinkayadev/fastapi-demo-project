@@ -1,5 +1,8 @@
 fastapi
 uvicorn[standard]
 pydantic
+pydantic[email]
 httpx
+sqlalchemy
+psycopg2
 pytest-mock

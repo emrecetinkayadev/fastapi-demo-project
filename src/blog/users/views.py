@@ -1,19 +1,21 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
+from sqlalchemy.orm import Session
+
 from .models import UserCreate, UserRead, UserUpdate
 from .service import get_all, get, create, delete, update
-from blog.posts.service import get_posts_by_user_id
 import typing as t
 from blog.models import PrimaryKey
+from blog.db.database import get_db
 
 router = APIRouter()
 
 
 @router.get("", response_model=t.List[UserRead])
-def get_users():
+def get_users(db: Session = Depends(get_db)):
     """
     Get all Users.
     """
-    return get_all()
+    return get_all(db=db)
 
 
 @router.get("/{user_id}", response_model=UserRead)

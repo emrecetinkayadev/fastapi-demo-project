@@ -1,11 +1,15 @@
+from sqlalchemy.orm import Session
+
 from blog.db.db import user_table
 from blog.users.models import User, UserCreate, UserUpdate, UserRead
 import typing as t
 from blog.utils import max_id
 
 
-def get_all() -> t.List[t.Optional[UserRead]]:
-    return user_table
+def get_all(db: Session) -> t.List[User]:
+    res = db.query(User).all()
+    print(res)
+    return res
 
 
 def get(user_id: int) -> t.Optional[UserRead]:
