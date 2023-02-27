@@ -8,7 +8,6 @@ Post = dict
 
 class PostBase(BlogBase):
     user_id: t.Optional[int]
-    created_at: t.Optional[datetime.date]
     title: t.Optional[str]
     content: t.Optional[str]
 
@@ -18,7 +17,6 @@ class PostCreate(PostBase):
 
 
 class PostUpdate(BlogBase):
-    created_at: t.Optional[datetime.date]
     title: t.Optional[str]
     content: t.Optional[str]
 

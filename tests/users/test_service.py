@@ -52,7 +52,7 @@ def test_update__update_succesful__return_updated_user(mocker, users, user_post)
     updated_user['id'] = user_id
     updated_user['password'] = "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5"
 
-    res = update(user_id=user_id, user_in=UserUpdate(**user_post))
+    res = update(user_id=user_id, update_data=UserUpdate(**user_post))
 
     assert res == updated_user
 

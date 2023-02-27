@@ -69,7 +69,7 @@ def update_user(user_id: PrimaryKey, user_in: UserUpdate):
             detail=[{"msg": "User with this ID doesn't exist"}]
         )
 
-    user_in = update(user_id=user_id, user_in=user_in)
+    user_in = update(user_id=user_id, update_data=user_in)
     return user_in
 
 

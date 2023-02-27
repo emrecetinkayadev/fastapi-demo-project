@@ -1,4 +1,3 @@
-from src.blog.db.db import user_table
 from src.blog.users.models import User, UserCreate, UserUpdate, UserRead
 import typing as t
 from src.blog.db.database import db
@@ -6,12 +5,8 @@ from src.blog.db.db_models import User as User_db
 
 
 def get_all() -> t.List[t.Optional[UserRead]]:
-    user_table = db.query(User_db).all()
-    users = []
-    for user_obj in user_table:
-        usr = user_obj.__dict__
-        users.append(usr)
-    return users
+    user_table = list(map(lambda user: user.__dict__, db.query(User_db).all()))
+    return user_table
 
 
 def get(user_id: int) -> t.Optional[UserRead]:
@@ -30,24 +25,23 @@ def create(user_in: UserCreate) -> t.Optional[User]:
     return new_user
 
 
-def update(user_id: int, user_in: UserUpdate) -> t.Optional[User]:
-    user_in = user_in.dict(exclude_unset=True)
+def update(user_id: int, update_data: UserUpdate) -> t.Optional[User]:
+    update_data = update_data.dict(exclude_unset=True)
 
     user_query = db.query(User_db).filter(User_db.id == user_id)
-    db_user = user_query.first()
+    user = user_query.first()
 
-    user_query.filter_by(id=user_id).update(user_in, synchronize_session=False)
+    user_query.filter_by(id=user_id).update(update_data, synchronize_session=False)
 
     db.commit()
-    db.refresh(db_user)
+    db.refresh(user)
 
-    return db_user.__dict__
+    return user.__dict__
 
 
 def delete(user_id: int) -> None:
     # Delete User By Id.
-    user_query = db.query(User_db).filter(User_db.id == user_id)
-    user_query.delete(synchronize_session=False)
+    db.query(User_db).filter(User_db.id == user_id).delete(synchronize_session=False)
     db.commit()
 
 
