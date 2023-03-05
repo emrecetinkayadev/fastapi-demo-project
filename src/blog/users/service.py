@@ -1,22 +1,22 @@
 from src.blog.users.models import User, UserCreate, UserUpdate, UserRead
 import typing as t
-from src.blog.db.database import db
 from src.blog.db.db_models import User as User_db
+from sqlalchemy.orm import Session
 
 
-def get_all() -> t.List[t.Optional[UserRead]]:
-    user_table = list(map(lambda user: user.__dict__, db.query(User_db).all()))
+def get_all(db: Session) -> t.List[t.Optional[UserRead]]:
+    user_table = db.query(User_db).all()
     return user_table
 
 
-def get(user_id: int) -> t.Optional[UserRead]:
+def get(user_id: int, db: Session) -> t.Optional[UserRead]:
     user = db.query(User_db).filter(User_db.id == user_id).first()
     if not user:
         return None
-    return user.__dict__
+    return user
 
 
-def create(user_in: UserCreate) -> t.Optional[User]:
+def create(user_in: UserCreate, db: Session) -> t.Optional[User]:
     new_user = user_in.dict(exclude_unset=True)
 
     db.add(User_db(**new_user))
@@ -25,7 +25,7 @@ def create(user_in: UserCreate) -> t.Optional[User]:
     return new_user
 
 
-def update(user_id: int, update_data: UserUpdate) -> t.Optional[User]:
+def update(user_id: int, update_data: UserUpdate, db: Session) -> t.Optional[User]:
     update_data = update_data.dict(exclude_unset=True)
 
     user_query = db.query(User_db).filter(User_db.id == user_id)
@@ -36,16 +36,16 @@ def update(user_id: int, update_data: UserUpdate) -> t.Optional[User]:
     db.commit()
     db.refresh(user)
 
-    return user.__dict__
+    return user
 
 
-def delete(user_id: int) -> None:
+def delete(user_id: int, db: Session) -> None:
     # Delete User By Id.
     db.query(User_db).filter(User_db.id == user_id).delete(synchronize_session=False)
     db.commit()
 
 
-def check_email(user_mail) -> bool:
+def check_email(user_mail, db: Session) -> bool:
     user = db.query(User_db).filter(User_db.email == user_mail).first()
     if not user:
         return False
