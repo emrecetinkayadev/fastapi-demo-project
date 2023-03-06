@@ -11,3 +11,4 @@ class BlogBase(BaseModel):
     class Config:
         validate_assignment = True
         arbitrary_types_allowed = True
+        orm_mode = True
