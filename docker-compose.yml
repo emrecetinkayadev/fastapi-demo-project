@@ -1,28 +1,26 @@
-version: "3"
+version: "3.8"
+
 services:
   web:
-    container_name: fastapi_app
-    image: emrecetinkayadev/fastapi-demo-project:1.0.0
     build: .
-    ports:
-      - "8000:8000"
-    environment:
-      - DB_URL=postgresql://postgres:password123@postgres:5432/fastapi
+    command: sh run.sh
+    depends_on:
+      - db
     volumes:
       - .:/app
-    depends_on:
-      - postgres
-
-  postgres:
-    image: postgres
-    container_name: postgres
     ports:
-      - "5432:5432"
-    restart: always
-    env_file:
-      - ./.env
+      - 8000:8000
+
+  db:
+    image: postgres
     volumes:
-      - postgres-db:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=fastapi
+    expose:
+      - 5432
 
 volumes:
-  postgres-db:
+  postgres_data:

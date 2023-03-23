@@ -1,7 +1,9 @@
-from src.blog.models import BlogBase, PrimaryKey
+from blog.models import BlogBase, PrimaryKey
 import typing as t
 from pydantic import EmailStr, validator
 from .validation import hash_password
+from sqlalchemy import TIMESTAMP, Column, String, text, Integer
+from blog.db.database import Base
 
 User = dict
 
@@ -39,3 +41,13 @@ class UserUpdate(UserBase):
 
 class UserRead(UserBase):
     id: PrimaryKey = None
+
+
+class User_db(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True, nullable=False)
+    username = Column(String,  nullable=False)
+    email = Column(String, unique=True, nullable=False)
+    password = Column(String, nullable=False)
+    created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()"))
+    updated_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()"))

@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 from .models import UserCreate, UserRead, UserUpdate
 from .service import get_all, get, create, delete, update, check_email
-from src.blog.posts.service import get_posts_by_user_id
+from blog.posts.service import get_posts_by_user_id
 from sqlalchemy.orm import Session
 import typing as t
-from src.blog.models import PrimaryKey
-from src.blog.db.database import get_db
+from blog.models import PrimaryKey
+from blog.db.database import get_db
 
 router = APIRouter()
 

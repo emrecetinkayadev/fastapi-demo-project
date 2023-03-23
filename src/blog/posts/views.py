@@ -2,8 +2,8 @@ from fastapi import APIRouter, HTTPException, status, Depends
 from .models import PostCreate, PostUpdate, PostRead
 from .service import get, create, get_all, delete, update
 import typing as t
-from src.blog.models import PrimaryKey
-from src.blog.db.database import get_db
+from blog.models import PrimaryKey
+from blog.db.database import get_db
 from sqlalchemy.orm import Session
 
 router = APIRouter()

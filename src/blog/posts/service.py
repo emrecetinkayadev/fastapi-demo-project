@@ -1,9 +1,6 @@
-from src.blog.posts.models import PostCreate, PostUpdate, Post
+from blog.posts.models import PostCreate, PostUpdate, Post, Post_db
 import typing as t
-from src.blog.db.db_models import Post as Post_db
-from sqlalchemy import exc
 from sqlalchemy.orm import Session
-from src.blog.db.utils import database_exception_handler
 
 
 def get_all(db: Session) -> t.List[t.Optional[Post]]:

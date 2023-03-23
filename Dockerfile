@@ -2,12 +2,8 @@ FROM python:3.11
 
 WORKDIR  /app
 
-COPY requirements.txt ./
+COPY requirements.txt /app/requirements.txt
 
-RUN pip install -r requirements.txt
+RUN pip3 install --no-cache-dir -r /app/requirements.txt
 
-COPY . .
-
-EXPOSE 8000
-
-CMD ["uvicorn", "src.blog.main:app", "--reload", "--host=0.0.0.0", "--port=8000"]
+COPY . /app/

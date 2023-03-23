@@ -1,8 +1,6 @@
-from src.blog.users.models import User, UserCreate, UserUpdate, UserRead
+from blog.users.models import User, UserCreate, UserUpdate, UserRead, User_db
 import typing as t
-from src.blog.db.db_models import User as User_db
 from sqlalchemy.orm import Session
-from src.blog.db.utils import database_exception_handler
 
 
 def get_all(db: Session) -> t.List[t.Optional[UserRead]]:
