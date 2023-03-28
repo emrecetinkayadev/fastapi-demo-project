@@ -4,6 +4,8 @@ from sqlalchemy.orm import sessionmaker
 from blog.db.database import Base, get_db
 from blog.main import app
 import sqlite3
+import pytest
+
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 
@@ -30,3 +32,13 @@ def override_get_db():
 app.dependency_overrides[get_db] = override_get_db
 
 client = TestClient(app)
+
+
+# Deletes all tables when testing is finished.
+@pytest.fixture(scope="function")
+def cleanup_db():
+    with engine.connect() as conn:
+        trans = conn.begin()
+        for table in reversed(Base.metadata.sorted_tables):
+            conn.execute(table.delete())
+        trans.commit()

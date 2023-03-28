@@ -16,7 +16,7 @@ client = TestClient(app)
 #     assert response.json() == users
 
 
-# def test_get_user__get_user_return_user(mocker, user_in):
+# def test_get_user__get_user__return_user(mocker, user_in):
 #     user_id = 1
 #     patched_user = mocker.patch('blog.users.views.get', return_value=user_in)
 #     response = client.get(f'/users/{user_id}')

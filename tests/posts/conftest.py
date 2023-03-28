@@ -57,6 +57,11 @@ def post_in_get():
 
 
 @pytest.fixture
+def post_updated():
+    return {'user_id': 1, 'title': 'Updated Post', 'content': 'string updated', 'id': 1}
+
+
+@pytest.fixture
 def post_in_put():
     return {
         "created_at": "2023-02-17",
