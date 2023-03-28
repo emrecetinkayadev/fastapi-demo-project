@@ -6,6 +6,37 @@ from blog.main import app
 client = TestClient(app)
 
 
+def test_get__post_not_found__return_none():
+    post_id = 100
+    response = client.get(f"/posts/{post_id}")
+    data = response.json()
+
+    assert data == {'detail': [{'msg': "Post with this id doesn't exist"}]}
+    assert response.status_code == 404
+
+
+def test_create__new_post__return_new_post(post_in):
+    response = client.post("/posts", json=post_in)
+    data = response.json()
+
+    assert response.status_code == 200, response.text
+    assert post_in["title"] == data["title"]
+    assert post_in["content"] == data["content"]
+    assert post_in["user_id"] == data["user_id"]
+
+
+def test_get__post_found__return_post():
+    post_id = 1
+    response = client.get(f"/posts/{post_id}")
+    data = response.json()
+
+    assert response.status_code == 200, response.text
+    assert data["title"] == "New Post"
+    assert data["content"] == ""
+    assert data["user_id"] == 1
+    assert data["id"] == 1
+
+
 # def test_get_posts__posts_found__return_posts(posts, mocker):
 #     patched_get_all = mocker.patch('blog.posts.views.get_all', return_value=posts)
 #     response = client.get("/posts")

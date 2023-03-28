@@ -3,19 +3,18 @@ from fastapi import status
 from blog.posts.models import PostCreate
 from blog.posts.service import get, get_all, get_posts_by_user_id, create, update, delete
 from blog.posts.models import PostCreate, PostUpdate
-from blog.db.db_models import Post as Post_db
+from blog.posts.models import PostDB
+from blog.db.database import get_db
 import datetime
-from tests.test_sql_app import client, override_get_db
+from fastapi import APIRouter, HTTPException, status, Depends
+from sqlalchemy.orm import Session
 
 
-def test_get__post_found__return_post(post_in, mocker):
-    response = client.get("/posts")
-    print(response)
-    # post_obj = Post_db(**post_in)
-    # mocker.patch('blog.posts.service.post', Post_db(post_obj))
-    # res = get(db=Session, post_id=1)
-
-    assert 1 == 1
+# def test_get__post_found__return_post(db: Session = Depends(get_db)):
+#     post_id = 1
+#     with db:
+#         response = get(db.session, post_id=post_id)
+#         assert response is not None
 
 
 # def test_get__post_not_found__return_none(mocker):

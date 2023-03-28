@@ -2,8 +2,9 @@ from blog.models import BlogBase, PrimaryKey
 import typing as t
 from pydantic import EmailStr, validator
 from .validation import hash_password
-from sqlalchemy import TIMESTAMP, Column, String, text, Integer
+from sqlalchemy import TIMESTAMP, Column, String, text, Integer, DateTime
 from blog.db.database import Base
+from datetime import datetime
 
 User = dict
 
@@ -16,7 +17,7 @@ class UserBase(BlogBase):
 class UserCreate(UserBase):
     password: t.Optional[str]
 
-    @validator('password')
+    @validator('password', allow_reuse=True)
     def password_hasher(cls, v):
         if type(v) is not str:
             raise ValueError('Password is not string.')
@@ -29,7 +30,7 @@ class UserCreate(UserBase):
 class UserUpdate(UserBase):
     password: t.Optional[str]
 
-    @validator('password')
+    @validator('password', allow_reuse=True)
     def password_hasher(cls, v):
         if type(v) is not str:
             raise ValueError('Password is not string.')
@@ -43,11 +44,11 @@ class UserRead(UserBase):
     id: PrimaryKey = None
 
 
-class User_db(Base):
+class UserDB(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True, nullable=False)
     username = Column(String,  nullable=False)
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
-    created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()"))
-    updated_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()"))
+    created_at = Column(DateTime, default=datetime.now())
+    updated_at = Column(DateTime, default=datetime.now())

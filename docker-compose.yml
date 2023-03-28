@@ -3,7 +3,6 @@ version: "3.8"
 services:
   web:
     build: .
-    command: sh run.sh
     depends_on:
       - db
     volumes:
