@@ -1,14 +1,13 @@
-import pytest
-from fastapi import status
-from blog.posts.models import PostCreate
-from blog.posts.service import get, get_all, get_posts_by_user_id, create, update, delete
-from blog.posts.models import PostCreate, PostUpdate
-from blog.posts.models import PostDB
-from blog.db.database import get_db
 import datetime
-from fastapi import APIRouter, HTTPException, status, Depends
+
+import pytest
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
+from blog.db.database import get_db
+from blog.posts.models import PostCreate, PostDB, PostUpdate
+from blog.posts.service import (create, delete, get, get_all,
+                                get_posts_by_user_id, update)
 
 # def test_get__post_found__return_post(db: Session = Depends(get_db)):
 #     post_id = 1

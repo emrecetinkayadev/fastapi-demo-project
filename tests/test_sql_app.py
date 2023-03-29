@@ -1,11 +1,12 @@
+import sqlite3
+
+import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from blog.db.database import Base, get_db
 from blog.main import app
-import sqlite3
-import pytest
-
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 

@@ -1,6 +1,7 @@
 import pytest
-from fastapi.testclient import TestClient
 from fastapi import status
+from fastapi.testclient import TestClient
+
 from blog.main import app
 
 client = TestClient(app)
@@ -97,7 +98,7 @@ def test_delete_post__post_connot_find__return_not_found(mocker):
         {"msg": "Post with this id doesn't exist"}]}
 
 
-def test_delete_post__post_deleted__return_success_response(mocker, post_in_get):
+def test_delete_post__post_deleted__return_success_response():
     post_id = 1
     response = client.delete(f"/posts/{post_id}")
 
