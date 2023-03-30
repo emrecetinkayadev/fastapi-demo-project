@@ -1,44 +1,50 @@
-from blog.db.db import post_table
-from blog.posts.models import PostCreate, PostUpdate, Post
+from blog.posts.models import PostCreate, PostUpdate, Post, PostDB
 import typing as t
+from sqlalchemy.orm import Session
 
-from blog.utils import max_id
 
-
-def get_all() -> t.List[t.Optional[Post]]:
+def get_all(db: Session) -> t.List[t.Optional[Post]]:
+    post_table = db.query(PostDB).all()
     return post_table
 
 
-def get_posts_by_user_id(user_id: int) -> t.List[t.Optional[Post]]:
-    user_posts = [post for post in post_table if post["user_id"] == user_id]
-    return user_posts
+def get_posts_by_user_id(db: Session, user_id: int) -> t.List[t.Optional[Post]]:
+    posts = db.query(PostDB).filter(PostDB.user_id == user_id).all()
+    return posts
 
 
-def get(post_id: int) -> t.Optional[Post]:
-    searched_post = None
-    for post in post_table:
-        if post["id"] == post_id:
-            searched_post = post
-    return searched_post
+def get(db: Session, post_id: int) -> t.Optional[Post]:
+    post = db.query(PostDB).filter(PostDB.id == post_id).first()
+    if not post:
+        return None
+    return post
 
 
-def create(post_in: PostCreate) -> t.Optional[Post]:
-    new_post_id = max_id(post_table) + 1
-    new_post = post_in.dict(exclude_unset=True)
-    new_post["id"] = new_post_id
-    post_table.append(new_post)
-    return new_post
+def create(db: Session, post_in: PostCreate) -> t.Optional[Post]:
+    post_in_dict = post_in.dict(exclude_unset=True)
+    post = PostDB(**post_in_dict)
+
+    db.add(post)
+    db.commit()
+    db.refresh(post)
+
+    return post
 
 
-def update(get_post: Post, update_data: PostUpdate) -> Post:
-    update_data = update_data.dict(exclude_unset=True)
-    for key, value in update_data.items():
-        get_post[key] = value
+def update(db: Session, post_id: int, update_data: PostUpdate) -> Post:
+    update_data_dict = update_data.dict(exclude_unset=True)
 
-    return get_post
+    post_query = db.query(PostDB).filter(PostDB.id == post_id)
+    post = post_query.first()
+
+    post_query.filter(PostDB.id == post_id).update(update_data_dict, synchronize_session=False)
+
+    db.commit()
+    db.refresh(post)
+
+    return post
 
 
-def delete(post_id: int) -> None:
-    for index, post in enumerate(post_table):
-        if post["id"] == post_id:
-            post_table.pop(index)
+def delete(db: Session, post_id: int) -> None:
+    db.query(PostDB).filter(PostDB.id == post_id).delete(synchronize_session=False)
+    db.commit()

@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from blog.home.views import router as home_router
 from blog.posts.views import router as post_router
 from blog.users.views import router as user_router
+from blog.db.database import create_tables
 
 app = FastAPI(
     title="FastAPI Demo",
@@ -11,6 +12,12 @@ app = FastAPI(
     openapi_url="/docs/openapi.json",
     redoc_url="/redoc"
 )
+
+
+@app.on_event("startup")
+def startup_event():
+    create_tables()
+
 
 app.include_router(home_router, prefix="/home", tags=["home"])
 app.include_router(post_router, prefix="/posts", tags=["posts"])

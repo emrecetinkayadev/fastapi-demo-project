@@ -43,7 +43,8 @@ def post_in():
         "created_at": "2023-02-16",
         "user_id": 1
     }
-    
+
+
 @pytest.fixture
 def post_in_get():
     return {
@@ -54,6 +55,12 @@ def post_in_get():
         "id": 1
     }
 
+
+@pytest.fixture
+def post_updated():
+    return {'user_id': 1, 'title': 'Updated Post', 'content': 'string updated', 'id': 1}
+
+
 @pytest.fixture
 def post_in_put():
     return {
@@ -62,3 +69,8 @@ def post_in_put():
         "content": "string updated",
         "id": 1
     }
+
+
+@pytest.fixture
+def post_res():
+    return {'user_id': 1, 'title': 'New Post', 'content': '', 'id': 2}
